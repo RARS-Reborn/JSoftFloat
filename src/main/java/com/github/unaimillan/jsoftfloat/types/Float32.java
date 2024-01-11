@@ -28,10 +28,6 @@ public class Float32 extends Floating<Float32> {
         this(((sign) ? 0x80000000 : 0) | (((exponent + 127) & 0xFF) << 23) | (significand & 0x007FFFFF));
     }
 
-    public int exponent() {
-        return ((bits >>> 23) & 0xFF) - 127;
-    }
-
     /**
      * @param num An integer to be converted to
      * @return
@@ -50,6 +46,14 @@ public class Float32 extends Floating<Float32> {
         }
         int bits = ((sign) ? 0x80000000 : 0) | (exponent << 23) | significand;
         return new Float32(bits);
+    }
+
+    public static Float32 fromExact(ExactFloat ef, Environment e) {
+        return Zero.fromExactFloat(ef, e);
+    }
+
+    public int exponent() {
+        return ((bits >>> 23) & 0xFF) - 127;
     }
 
     public Float32 negate() {
@@ -122,9 +126,7 @@ public class Float32 extends Floating<Float32> {
     @Override
     public Float32 NegativeInfinity() {
         return NegativeInfinity;
-    }
-
-    // Some constants that allow fromExactFloat to be mostly copied
+    }    // Some constants that allow fromExactFloat to be mostly copied
     private static final int sigbits = 23, expbits = 8,
             maxexp = 1 << (expbits - 1),
             minexp = -(1 << (expbits - 1)) + 1,
@@ -236,10 +238,6 @@ public class Float32 extends Floating<Float32> {
         }
     }
 
-    public static Float32 fromExact(ExactFloat ef, Environment e) {
-        return Zero.fromExactFloat(ef, e);
-    }
-
     @Override
     public ExactFloat toExactFloat() {
         assert !isInfinite() : "Infinity is not exact";
@@ -270,4 +268,6 @@ public class Float32 extends Floating<Float32> {
         // TODO: make a tight bound around actual required precision
         return 30;
     }
+
+
 }

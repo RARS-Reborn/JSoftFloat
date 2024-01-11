@@ -26,8 +26,9 @@ public class ExactFloat implements Comparable<ExactFloat> {
         exponent = exp;
         significand = sig;
     }
+
     public ExactFloat(BigInteger i) {
-        if(i.compareTo(BigInteger.ZERO) < 0){
+        if (i.compareTo(BigInteger.ZERO) < 0) {
             sign = true;
             i = i.negate();
         } else {
@@ -120,7 +121,7 @@ public class ExactFloat implements Comparable<ExactFloat> {
         }
 
         // Always round up so exact results are distinguished from rounded ones.
-        if(outbits.bitLength() >= accuracy){
+        if (outbits.bitLength() >= accuracy) {
             outbits = outbits.shiftLeft(1);
             outbits = outbits.add(BigInteger.ONE);
             count++;
@@ -227,7 +228,7 @@ public class ExactFloat implements Comparable<ExactFloat> {
         if (isZero()) return BigInteger.ZERO;
 
         ExactFloat f = roundToIntegral(env).normalize();
-        if(f.compareTo(this) != 0){
+        if (f.compareTo(this) != 0) {
             env.flags.add(Flags.inexact);
         }
         assert f.exponent >= 0 : "There can't be any fractions at this point";

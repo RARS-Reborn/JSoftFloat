@@ -42,52 +42,52 @@ public class Conversions {
         Environment copy = new Environment();
         copy.mode = env.mode;
         BigInteger rounded;
-        if(f.isZero()){
+        if (f.isZero()) {
             rounded = BigInteger.ZERO;
         } else {
             rounded = f.toExactFloat().toIntegral(env);
         }
 
         // Section 5.8
-        if (rounded.compareTo(max) > 0 || rounded.compareTo(min) < 0){
+        if (rounded.compareTo(max) > 0 || rounded.compareTo(min) < 0) {
             env.flags.add(Flags.invalid);
-        } else if (!quiet && copy.flags.contains(Flags.inexact)){
+        } else if (!quiet && copy.flags.contains(Flags.inexact)) {
             env.flags.add(Flags.inexact);
         }
         return rounded.min(max).max(min); // clamp rounded to between max and min
     }
 
     public static <T extends Floating<T>> int convertToInt(T f, Environment env) {
-        return convertToInt(f,env,false);
+        return convertToInt(f, env, false);
     }
 
     public static <T extends Floating<T>> int convertToInt(T f, Environment env, boolean quiet) {
-        BigInteger rounded = convertToIntegral(f,BigInteger.valueOf(Integer.MAX_VALUE),BigInteger.valueOf(Integer.MIN_VALUE),env,quiet);
+        BigInteger rounded = convertToIntegral(f, BigInteger.valueOf(Integer.MAX_VALUE), BigInteger.valueOf(Integer.MIN_VALUE), env, quiet);
         return rounded.intValueExact();
     }
 
 
     public static <T extends Floating<T>> int convertToUnsignedInt(T f, Environment env, boolean quiet) {
-        BigInteger rounded = convertToIntegral(f,BigInteger.valueOf(0xFFFFFFFFL),BigInteger.ZERO,env,quiet);
-        return (int)(rounded.longValueExact()&0xFFFFFFFFL);
+        BigInteger rounded = convertToIntegral(f, BigInteger.valueOf(0xFFFFFFFFL), BigInteger.ZERO, env, quiet);
+        return (int) (rounded.longValueExact() & 0xFFFFFFFFL);
     }
 
     public static <T extends Floating<T>> long convertToLong(T f, Environment env, boolean quiet) {
-        BigInteger rounded = convertToIntegral(f,BigInteger.valueOf(Long.MAX_VALUE),BigInteger.valueOf(Long.MIN_VALUE),env,quiet);
+        BigInteger rounded = convertToIntegral(f, BigInteger.valueOf(Long.MAX_VALUE), BigInteger.valueOf(Long.MIN_VALUE), env, quiet);
         return rounded.longValueExact();
     }
 
 
     public static <T extends Floating<T>> long convertToUnsignedLong(T f, Environment env, boolean quiet) {
-        BigInteger rounded = convertToIntegral(f,BigInteger.valueOf(-1).add(BigInteger.ONE.shiftLeft(64)),BigInteger.ZERO,env,quiet);
+        BigInteger rounded = convertToIntegral(f, BigInteger.valueOf(-1).add(BigInteger.ONE.shiftLeft(64)), BigInteger.ZERO, env, quiet);
         return rounded.longValue();
     }
 
 
     public static <T extends Floating<T>> T convertFromInt(BigInteger i, Environment env, T helper) {
-        if(i.equals(BigInteger.ZERO)){
+        if (i.equals(BigInteger.ZERO)) {
             return helper.Zero();
         }
-        return helper.fromExactFloat(new ExactFloat(i),env);
+        return helper.fromExactFloat(new ExactFloat(i), env);
     }
 }

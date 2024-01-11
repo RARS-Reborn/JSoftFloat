@@ -17,7 +17,12 @@ public class Float64 extends Floating<Float64> {
             NaN = new Float64(0x7FF80000_00000000L),
             Infinity = new Float64(0x7FF00000_00000000L),
             NegativeInfinity = new Float64(0xFFF00000_00000000L);
-
+    // Some constants that allow fromExactFloat to be mostly copied
+    private static final int sigbits = 52, expbits = 11,
+            maxexp = 1 << (expbits - 1),
+            minexp = -(1 << (expbits - 1)) + 1;
+    private static final long
+            sigmask = (1L << sigbits) - 1;
     public final long bits;
 
     public Float64(long bits) {
@@ -26,10 +31,6 @@ public class Float64 extends Floating<Float64> {
 
     public Float64(boolean sign, int exponent, long significand) {
         this(((sign) ? 0x80000000_00000000L : 0) | (((exponent + 1023) & 0x7FFL) << sigbits) | (significand & sigmask));
-    }
-
-    public int exponent() {
-        return ((int) (bits >>> sigbits) & 0x7FF) - 1023;
     }
 
     /**
@@ -50,7 +51,15 @@ public class Float64 extends Floating<Float64> {
                 break;
             }
         }
-        return new Float64(sign,exponent,significand);
+        return new Float64(sign, exponent, significand);
+    }
+
+    public static Float64 fromExact(ExactFloat ef, Environment e) {
+        return Zero.fromExactFloat(ef, e);
+    }
+
+    public int exponent() {
+        return ((int) (bits >>> sigbits) & 0x7FF) - 1023;
     }
 
     public Float64 negate() {
@@ -123,14 +132,6 @@ public class Float64 extends Floating<Float64> {
     public Float64 NegativeInfinity() {
         return NegativeInfinity;
     }
-
-
-    // Some constants that allow fromExactFloat to be mostly copied
-    private static final int sigbits = 52, expbits = 11,
-            maxexp = 1 << (expbits - 1),
-            minexp = -(1 << (expbits - 1)) + 1;
-    private static final long
-            sigmask = (1L << sigbits) - 1;
 
     @Override
     public Float64 fromExactFloat(ExactFloat ef, Environment env) {
@@ -238,10 +239,6 @@ public class Float64 extends Floating<Float64> {
         }
     }
 
-    public static Float64 fromExact(ExactFloat ef, Environment e) {
-        return Zero.fromExactFloat(ef, e);
-    }
-
     @Override
     public ExactFloat toExactFloat() {
         assert !isInfinite() : "Infinity is not exact";
@@ -256,9 +253,9 @@ public class Float64 extends Floating<Float64> {
             significand = BigInteger.ZERO;
         } else if (isNormal()) {
             exponent = exponent() - sigbits;
-            significand = BigInteger.valueOf((bits & sigmask) + (sigmask+1)); // Add back the implied one
+            significand = BigInteger.valueOf((bits & sigmask) + (sigmask + 1)); // Add back the implied one
         } else if (isSubnormal()) {
-            exponent = exponent() - (sigbits-1);
+            exponent = exponent() - (sigbits - 1);
             significand = BigInteger.valueOf(bits & sigmask);
         } else {
             assert false : "This should not be reachable";
