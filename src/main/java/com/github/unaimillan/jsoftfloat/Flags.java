@@ -1,4 +1,4 @@
-package jsoftfloat;
+package com.github.unaimillan.jsoftfloat;
 
 /**
  * Exception flags which can be set in certain conditions

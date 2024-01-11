@@ -1,9 +1,9 @@
-package jsoftfloat.internal;
+package com.github.unaimillan.jsoftfloat.internal;
 
 
-import jsoftfloat.Environment;
-import jsoftfloat.Flags;
-import jsoftfloat.RoundingMode;
+import com.github.unaimillan.jsoftfloat.Environment;
+import com.github.unaimillan.jsoftfloat.Flags;
+import com.github.unaimillan.jsoftfloat.RoundingMode;
 
 import java.math.BigInteger;
 

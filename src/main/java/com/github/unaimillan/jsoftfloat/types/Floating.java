@@ -1,7 +1,7 @@
-package jsoftfloat.types;
+package com.github.unaimillan.jsoftfloat.types;
 
-import jsoftfloat.Environment;
-import jsoftfloat.internal.ExactFloat;
+import com.github.unaimillan.jsoftfloat.Environment;
+import com.github.unaimillan.jsoftfloat.internal.ExactFloat;
 
 /**
  * General classifications that any floating point class needs to provide.

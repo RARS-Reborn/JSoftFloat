@@ -1,11 +1,13 @@
-import jsoftfloat.Environment;
-import jsoftfloat.Flags;
-import jsoftfloat.RoundingMode;
-import jsoftfloat.operations.Arithmetic;
-import jsoftfloat.operations.Comparisons;
-import jsoftfloat.operations.Conversions;
-import jsoftfloat.types.Float32;
-import jsoftfloat.types.Float64;
+package com.github.unaimillan.jsoftfloat;
+
+import com.github.unaimillan.jsoftfloat.Environment;
+import com.github.unaimillan.jsoftfloat.Flags;
+import com.github.unaimillan.jsoftfloat.RoundingMode;
+import com.github.unaimillan.jsoftfloat.operations.Arithmetic;
+import com.github.unaimillan.jsoftfloat.operations.Comparisons;
+import com.github.unaimillan.jsoftfloat.operations.Conversions;
+import com.github.unaimillan.jsoftfloat.types.Float32;
+import com.github.unaimillan.jsoftfloat.types.Float64;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;

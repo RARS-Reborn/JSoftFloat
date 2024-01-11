@@ -1,4 +1,4 @@
-package jsoftfloat;
+package com.github.unaimillan.jsoftfloat;
 
 /**
  * The different ways that rounding can be performed

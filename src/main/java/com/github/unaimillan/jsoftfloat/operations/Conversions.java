@@ -1,9 +1,9 @@
-package jsoftfloat.operations;
+package com.github.unaimillan.jsoftfloat.operations;
 
-import jsoftfloat.Environment;
-import jsoftfloat.Flags;
-import jsoftfloat.internal.ExactFloat;
-import jsoftfloat.types.Floating;
+import com.github.unaimillan.jsoftfloat.Environment;
+import com.github.unaimillan.jsoftfloat.Flags;
+import com.github.unaimillan.jsoftfloat.internal.ExactFloat;
+import com.github.unaimillan.jsoftfloat.types.Floating;
 
 import java.math.BigInteger;
 
