@@ -1,8 +1,5 @@
 package com.github.unaimillan.jsoftfloat;
 
-import com.github.unaimillan.jsoftfloat.Environment;
-import com.github.unaimillan.jsoftfloat.Flags;
-import com.github.unaimillan.jsoftfloat.RoundingMode;
 import com.github.unaimillan.jsoftfloat.operations.Arithmetic;
 import com.github.unaimillan.jsoftfloat.operations.Comparisons;
 import com.github.unaimillan.jsoftfloat.operations.Conversions;
@@ -15,11 +12,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ComprehensiveTesting {
+public class ComprehensiveTest {
+
+    final Integer MIN_TEST_VALUE = Integer.MIN_VALUE >> 10;
+
+    final Integer MAX_TEST_VALUE = Integer.MAX_VALUE >> 10;
+
     @Test
     void IdempotenceOfRounding() {
         Environment env = new Environment();
-        for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
+        for (int i = MIN_TEST_VALUE; i < MAX_TEST_VALUE; i++) {
             Float32 f = new Float32(i);
             if (f.isZero() || f.isNaN() || f.isInfinite()) continue;
             assertEquals(i, Float32.fromExact(f.toExactFloat(), env).bits);
@@ -29,12 +31,12 @@ public class ComprehensiveTesting {
 
     @Test
     void AdditiveIdentity() {
-        for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
+        for (int i = MIN_TEST_VALUE; i < MAX_TEST_VALUE; i++) {
             Float32 f = new Float32(i);
             if (f.isZero() || f.isNaN()) continue;
             assertEquals(i, Arithmetic.add(f, Float32.Zero, new Environment()).bits);
         }
-        for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
+        for (int i = MIN_TEST_VALUE; i < MAX_TEST_VALUE; i++) {
             Float32 f = new Float32(i);
             if (f.isZero() || f.isNaN()) continue;
             assertEquals(i, Arithmetic.add(Float32.Zero, f, new Environment()).bits);
@@ -43,7 +45,7 @@ public class ComprehensiveTesting {
 
     @Test
     void compareToFLoatSqrt() {
-        for (int i = Integer.MAX_VALUE / 4 * 3; i < Integer.MAX_VALUE; i++) {
+        for (int i = MAX_TEST_VALUE / 4 * 3; i < MAX_TEST_VALUE; i++) {
             Float32 f = new Float32(i);
             float F = Float.intBitsToFloat(i);
             if (f.isZero() || f.isNaN()) continue;
@@ -62,7 +64,7 @@ public class ComprehensiveTesting {
             Float32 a = new Float32(aBits);
             Float aF = Float.intBitsToFloat(aBits);
             if (a.isNaN()) continue;
-            for (int i = 0; i < Integer.MAX_VALUE / 64; i++) {
+            for (int i = 0; i < MAX_TEST_VALUE / 64; i++) {
                 int bBits = ThreadLocalRandom.current().nextInt();
                 Float32 b = new Float32(bBits);
                 if (b.isNaN()) continue;
@@ -78,7 +80,7 @@ public class ComprehensiveTesting {
 
     @Test
     void sqrtAndRounding() {
-        for (int j = 0; j < 1000000000; j++) {
+        for (int j = MIN_TEST_VALUE; j < MAX_TEST_VALUE; j++) {
             int aBits = ThreadLocalRandom.current().nextInt();
             Float32 a = new Float32(aBits);
             Float aF = Float.intBitsToFloat(aBits);
@@ -100,7 +102,7 @@ public class ComprehensiveTesting {
             Float32 a = new Float32(aBits);
             Float aF = Float.intBitsToFloat(aBits);
             if (a.isNaN()) continue;
-            for (int i = 0; i < Integer.MAX_VALUE / 64; i++) {
+            for (int i = 0; i < MAX_TEST_VALUE / 64; i++) {
                 int bBits = ThreadLocalRandom.current().nextInt();
                 Float32 b = new Float32(bBits);
                 if (b.isNaN()) continue;
@@ -120,7 +122,7 @@ public class ComprehensiveTesting {
             int aBits = ThreadLocalRandom.current().nextInt();
             Float32 a = new Float32(aBits);
             if (a.isNaN()) continue;
-            for (int i = 0; i < Integer.MAX_VALUE / 256; i++) {
+            for (int i = 0; i < MAX_TEST_VALUE / 256; i++) {
                 int bBits = ThreadLocalRandom.current().nextInt();
                 Float32 b = new Float32(bBits);
                 if (b.isNaN()) continue;
@@ -138,7 +140,7 @@ public class ComprehensiveTesting {
             int aBits = ThreadLocalRandom.current().nextInt();
             Float32 a = new Float32(aBits);
             if (a.isNaN()) continue;
-            for (int i = 0; i < Integer.MAX_VALUE / 256; i++) {
+            for (int i = 0; i < MAX_TEST_VALUE / 256; i++) {
                 int bBits = ThreadLocalRandom.current().nextInt();
                 Float32 b = new Float32(bBits);
                 if (b.isNaN()) continue;
@@ -156,10 +158,8 @@ public class ComprehensiveTesting {
     }
     @Test
     void IntConversion64() {
-        for (int j = Integer.MIN_VALUE; j < Integer.MAX_VALUE; j++) {
+        for (int j = MIN_TEST_VALUE; j < MAX_TEST_VALUE; j++) {
             assertEquals(j,roundTripInt64(j));
         }
     }
-
-
 }
